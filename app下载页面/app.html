@@ -1,0 +1,425 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>页面切换</title>
+	<script src="jquery-1.9.1.min.js"></script>
+	<style type="text/css">
+		h1,body,html{
+			padding: 0;
+			margin: 0;
+		}
+		*{
+	margin: 0;
+	padding: 0;
+	font-family: "Microsoft YaHei";
+}
+/*@font-face{
+font-family: "微软雅黑";
+}*/
+a{
+	text-decoration: none;
+}
+ul{
+	list-style: none;
+}
+		body{
+			font-family: Arial,"Microsoft YaHei","Hiragino Sans GB",sans-serif;
+		}
+		html,body{
+			height: 100%;
+			overflow: hidden;
+		}
+		h1{
+			font-size: 6em;
+			font-weight: normal;
+		}
+		p{
+			font-size: 2em;
+			margin:0.5em 0 2em 0;
+		}
+		#container,.section{
+			height: 100%;
+			position: relative;
+		}
+		#section0,
+		#section1,
+		#section2,
+		#section3{
+			background-color: #000;
+			background-size: cover;
+			background-position: 50% 50%;
+		}
+		#section0{
+			background-image: url(images/1.jpg);
+			color: #fff;
+			text-shadow:1px 1px 1px #333;
+		}
+		#section1{
+			color: #fff;
+			text-shadow:1px 1px 1px #333;
+			background:#36aaae;
+		}
+		#section2{
+			background:#faa3af;
+			color: #fff;
+			text-shadow:1px 1px 1px #666;
+		}
+		#section3{
+			color: #008283;
+			background:#f56c7e;
+			text-shadow:1px 1px 1px #fff;
+		}
+		#section4{
+			color: #008283;
+			background:#a7cf5f;
+			text-shadow:1px 1px 1px #fff;
+		}
+		#section0 p{
+			color: #F1FF00;
+		}
+		#section3 p{
+			color: #00A3AF;
+		}
+		.left{
+			float: left;
+		}
+		.intro{
+			position: absolute;
+			top: 50%;
+			width: 100%;
+			-webkit-transform: translateY(-50%);
+			transform: translateY(-50%);
+			text-align: center;
+		}
+		#pages{
+			position:fixed;
+			right: 10px;
+			top: 50%;
+			list-style: none;
+		}
+		#pages li{
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+			background: #fff;
+			margin: 0 0 10px 5px;
+		}
+		#pages li.active{
+			width: 14px;
+			height: 14px;
+			border: 2px solid #FFFE00;
+			background: none;
+			margin-left: 0;
+		}
+		#section0 .title{
+			-webkit-transform: translateX(-100%);
+			transform: translateX(-100%);
+			-webkit-animation: sectitle0 1s ease-in-out 100ms forwards;
+			animation: sectitle0 1s ease-in-out 100ms forwards;
+		}
+		#section0 p{
+			-webkit-transform: translateX(100%);
+			transform: translateX(100%);
+			-webkit-animation: sec0 1s ease-in-out 100ms forwards;
+			animation: sec0 1s ease-in-out 100ms forwards;
+		}
+		@-webkit-keyframes sectitle0{
+			0%{
+				-webkit-transform: translateX(-100%);
+				transform: translateX(-100%);
+			}
+			100%{
+				-webkit-transform: translateX(0);
+				transform: translateX(0);
+			}
+		}
+		@keyframes sectitle0{
+			0%{
+				-webkit-transform: translateX(-100%);
+				transform: translateX(-100%);
+			}
+			100%{
+				-webkit-transform: translateX(0);
+				transform: translateX(0);
+			}
+		}
+		@-webkit-keyframes sec0{
+			0%{
+				-webkit-transform: translateX(100%);
+				transform: translateX(100%);
+			}
+			100%{
+				-webkit-transform: translateX(0);
+				transform: translateX(0);
+			}
+		}
+		@keyframes sec0{
+			0%{
+				-webkit-transform: translateX(100%);
+				transform: translateX(100%);
+			}
+			100%{
+				-webkit-transform: translateX(0);
+				transform: translateX(0);
+			}
+		}
+		#content{
+			width: 100%;
+			height: 80px;
+			position: fixed;
+			z-index: 9999;
+			top:35px;
+			background-color: #ddd;
+			opacity: .6;
+			
+		}
+		.top{
+			width: 100%;
+			height: 80px;
+			position: relative;
+		}
+		.top ul li{
+			float:left;
+			margin-left: 20px;
+			font-size: 12px;
+			color: #fff;
+		}
+		.logoImg{
+			float: left;
+			position: absolute;
+			top: 10px;
+			left: 14.6%;
+			opacity: 1;
+		}
+		.top ul li{
+			margin:0 20px 0 0 ;
+			float:right;
+		}
+		.top ul li a{
+			opacity: 1;
+		}
+		.top ul{
+			margin-left:200px;
+			width: 1200px;
+			/*margin: 0 auto;*/
+			position: absolute;
+			top: 27px;
+			right: 212px;
+		}
+		.intro ul.first{
+			text-align: center;			
+			position: absolute;
+			top: -120px;
+			left:194px;
+			width: 520px;
+			height:550px;
+			list-style: none;
+		}
+		ul.first li{
+			text-align: left;
+			list-style: none;
+		}
+		.pic5{
+			position: absolute;
+			top: -205px;
+			right: 200px;
+		}
+		.pic6{
+			float: left;
+			position: fixed;
+			top: 535px;
+			left: 60px;
+			z-index: 10000;
+		}
+		.line{
+			position: absolute;
+			top: 170px;
+			left: -500px;
+			z-index: -1;
+		}
+		.ph2{
+			float: left;
+			margin-top: 162px;
+			margin-left: 280px;
+		}
+		.second{
+			float: right;
+			margin-right: -250px;
+			margin-top: 250px;
+			width: 342px;
+			height: 500px;
+		}
+		.second li{
+			text-align: center;
+		}
+		.line3{
+			position: absolute;
+			top: 170px;
+			left: -500px;
+			z-index: -1;
+		}
+		.ph3{
+			float: left;
+			margin-top: 162px;
+			margin-left: 280px;
+		}
+		.third{
+			float: right;
+			margin-right: -250px;
+			margin-top: 250px;
+			width: 342px;
+			height: 500px;
+		}
+		.third li{
+			text-align: center;
+		}
+		.line4{
+			position: absolute;
+			top: 170px;
+			left: -500px;
+			z-index: -1;
+		}
+		.ph4{
+			float: left;
+			margin-top: 162px;
+			margin-left: 280px;
+		}
+		.four{
+			float: right;
+			margin-right: -250px;
+			margin-top: 250px;
+			width: 342px;
+			height: 500px;
+		}
+		.four li{
+			text-align: center;
+		}
+		.line5{
+			position: absolute;
+			top: 170px;
+			left: -500px;
+			z-index: -1;
+		}
+		.ph5{
+			float: left;
+			margin-top: 162px;
+			margin-left: 280px;
+		}
+		.five{
+			float: right;
+			margin-right: -250px;
+			margin-top: 250px;
+			width: 342px;
+			height: 500px;
+		}
+		.five li{
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+	<img src="images/firscreen-6.png" alt="" class="pic6" />	
+	<div id="content">
+	<div id="" class="top">
+		<img src="images/logo_02.png" alt="" class="logoImg"/>
+		<ul>
+			<li><a href=""><img src="images/pad-icon.png" alt="" /></a></li>
+			<li><a href=""><img src="images/android-icon.png" alt="" /></a></li>
+			<li><a href=""><img src="images/iphone-icon.png" alt="" /></a></li>
+		</ul>	
+	</div>
+	</div>
+
+	<div id="container">
+		<div class="section active" id="section0">
+			<div class="intro">
+				
+				<ul class="first">
+					<li><img src="images/firscreen-1.png" alt="" class="pic1" /></li>
+					<li><img src="images/firscreen-2.png" alt="" class="pic2" /></li>
+					<li><img src="images/firscreen-3.png" alt="" class="pic3" /></li>
+					<li><img src="images/firscreen-4.jpg" alt="" class="pic4" /></li>
+				</ul>	
+				<img src="images/firscreen-5.png" alt="" class="pic5" />
+			</div>
+
+		</div>
+
+		<div class="section" id="section1">
+			<div class="intro" id="intro2">
+				<img src="images/line.png" alt="" class="line">
+				<img src="images/secscreen-ph.png" alt="" class="ph2">
+				<div class="secscreen">
+				<ul class="second">
+					<li><img src="images/secscreen-2.png" alt=""></li>
+					<li><img src="images/secscreen-3.png" alt=""></li>
+					<li><img src="images/secscreen-4.png" alt=""></li>
+					<li><img src="images/secscreen-5.png" alt=""></li>
+					
+				</ul>
+				</div>
+			</div>
+			
+		</div>
+		<div class="section" id="section2">
+			<div class="intro">
+				<img src="images/line.png" alt="" class="line3">
+				<img src="images/threescreen-ph.png" alt="" class="ph3">
+				<div class="secscreen">
+				<ul class="third">
+					<li><img src="images/threescreen-1.png" alt=""></li>
+					<li><img src="images/threescreen-2.png" alt=""></li>
+					<li><img src="images/secscreen-4.png" alt=""></li>
+					<li><img src="images/threescreen-3.png" alt=""></li>
+					
+				</ul>
+				</div>
+			</div>
+		</div>
+		<div class="section" id="section3">
+			<div class="intro">
+				<img src="images/line.png" alt="" class="line4">
+				<img src="images/fourscreen-ph.png" alt="" class="ph4">
+				<div class="secscreen">
+				<ul class="four">
+					<li><img src="images/fourscreen-1.png" alt=""></li>
+					<li><img src="images/fourscreen-2.png" alt=""></li>
+					<li><img src="images/secscreen-4.png" alt=""></li>
+					<li><img src="images/fourscreen-3.png" alt=""></li>
+					
+				</ul>
+				</div>
+			</div>
+		</div>
+		<div class="section" id="section4">
+			<div class="intro">
+				<img src="images/line.png" alt="" class="line5">
+				<img src="images/fivescreen-ph.png" alt="" class="ph5">
+				<div class="secscreen">
+				<ul class="five">
+					<li><img src="images/fivescreen-1.png" alt=""></li>
+					<li><img src="images/fivescreen-2.png" alt=""></li>
+					<li><img src="images/secscreen-4.png" alt=""></li>
+					<li><img src="images/fivescreen-3.png" alt=""></li>
+					
+				</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="app.js"></script>
+	<script type="text/javascript" src="jquery-1.11.2.min.js"></script>
+	<script type="text/javascript" src="pageswitch.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$("#container").switchPage({
+				'loop' : true,
+				'keyboard' : true,
+				'pagination' : true,
+				'direction' : 'vertical'//垂直方向vertical
+			});
+		});
+	</script>
+</body>
+</html>
